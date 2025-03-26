@@ -6,6 +6,16 @@ export class Property {
     private maxGuests: number,
     private basePricePerNight: number
   ) {
+    if (!name) {
+      throw new Error("O nome e obrigatorio.");
+    }
+    if (maxGuests < 0) {
+      throw new Error("O maxGuests nao deve ser menor que 0");
+    }
+
+    if (maxGuests === 0) {
+      throw new Error("O numero maximo de hospedes deve ser maior que zero");
+    }
     this.id = id;
     this.name = name;
     this.description = description;
@@ -31,5 +41,13 @@ export class Property {
 
   getBasePricePerNight(): number {
     return this.basePricePerNight;
+  }
+
+  validateGuestsCount(guestCount: number): void {
+    if (guestCount > this.maxGuests) {
+      throw new Error(
+        `Numero maximo de hospedes excedido. Max permitido: ${this.maxGuests}.`
+      );
+    }
   }
 }
