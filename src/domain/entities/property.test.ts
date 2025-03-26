@@ -1,4 +1,5 @@
 import { Property } from "./property";
+import { DateRange } from "../value_object/date_range";
 
 describe("Property Entity", () => {
   it("should create instance of Property with all atributes ", () => {
@@ -28,5 +29,27 @@ describe("Property Entity", () => {
     expect(() => {
       property.validateGuestsCount(6);
     }).toThrow("Numero maximo de hospedes excedido. Max permitido: 5");
+  });
+
+  it("should not apply discount for stays shorter than 7 nights", () => {
+    const property = new Property("1", "Home", "Description", 2, 100);
+    const dateRange = new DateRange(
+      new Date("2025-12-10"),
+      new Date("2025-12-16")
+    );
+
+    const totalPrice = property.calculateTotalPrice(dateRange);
+    expect(totalPrice).toBe(600);
+  });
+
+  it("should apply discount for stays shorter than 7 nights", () => {
+    const property = new Property("1", "Home", "Description", 2, 100);
+    const dateRange = new DateRange(
+      new Date("2025-12-10"),
+      new Date("2025-12-17")
+    );
+
+    const totalPrice = property.calculateTotalPrice(dateRange);
+    expect(totalPrice).toBe(630);
   });
 });
