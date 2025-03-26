@@ -15,9 +15,12 @@ describe("DateRange Value Object", () => {
     expect(dateRange.getEndDate()).toEqual(endDate);
   });
 
-  it("", () => {
+  it("should calculate the total nights correctly", () => {
     const startDate = new Date("2024-12-20");
     const endDate = new Date("2024-12-25");
     const dateRange = new DateRange(startDate, endDate);
+    const totalNights = dateRange.getTotalNights();
+
+    expect(totalNights).toBe(5);
   });
 });
